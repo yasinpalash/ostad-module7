@@ -10,7 +10,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: ' Counter App',
       theme: ThemeData(
-        primarySwatch: Colors.teal,
+        primaryColor: Colors.teal,
+        elevatedButtonTheme: ElevatedButtonThemeData(
+          style: ElevatedButton.styleFrom(
+            foregroundColor: Colors.white,
+            backgroundColor: Colors.purple
+          )
+        )
       ),
       home: HomeScreen(),
     );
@@ -22,65 +28,25 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       appBar: AppBar(
-        title: const Text('Home'),
+        title: Text(
+          'Home'
+        ),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(child: ElevatedButton(onPressed: (){
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductList()));
-
-          }, child:const Text('GO to productList') ))
-        ],
-      ),
-    );
-  }
-}
-
-class ProductList extends StatelessWidget {
-  const ProductList({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Product List'),),
-      body: ListView.builder(
-        itemCount: 20,
-        itemBuilder: (context,index){
-          return ListTile(
-            onTap: (){
-
-              Navigator.push(context, MaterialPageRoute(builder: (context){
-                return ProductDetails(productname: index.toString());
-              }));
-            },
-            title: Text(index.toString()),
-          );
-      },
-
-
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Hlw'),
+            TextButton(onPressed: (){}, child: Text('Tap here')),
+            ElevatedButton(onPressed: (){}, child: Text('Tap here'))
+          ],
+        ),
       ),
     );
   }
 }
-class ProductDetails extends StatelessWidget {
 
-  final String productname;
-  const ProductDetails({super.key,required this.productname});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Product Details'),),
-      body:Center(child:
-        Text(productname,style: TextStyle(fontSize: 30),)
-
-        ,),
-    );
-  }
-}
 
 
 
