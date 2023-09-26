@@ -10,93 +10,77 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: ' Counter App',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.teal,
       ),
-      home: CounterScreen(),
+      home: HomeScreen(),
     );
   }
 }
-
-class CounterScreen extends StatefulWidget {
-  @override
-  _CounterScreenState createState() => _CounterScreenState();
-}
-
-class _CounterScreenState extends State<CounterScreen> {
-  int count = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      count++;
-      if (count >= 5) {
-        _showDialog(count);
-      }
-    });
-  }
-
-  void _decrementCounter() {
-    setState(() {
-      if (count > 0) {
-        count--;
-      }
-    });
-  }
-
-  void _showDialog(int count) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Button pressed $count times'),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Close'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
+class HomeScreen extends StatelessWidget {
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       appBar: AppBar(
-        title: const Text(' Counter App'),
+        title: const Text('Home'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Count:',
-              style: TextStyle(fontSize: 24),
-            ),
-            Text(
-              '$count',
-              style: const TextStyle(fontSize: 48),
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                ElevatedButton(
-                  onPressed: _incrementCounter,
-                  child: const Text('+'),
-                ),
-                const SizedBox(width: 20),
-                ElevatedButton(
-                  onPressed: _decrementCounter,
-                  child: const Text('-'),
-                ),
-              ],
-            ),
-          ],
-        ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Center(child: ElevatedButton(onPressed: (){
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>ProductList()));
+
+          }, child:const Text('GO to productList') ))
+        ],
       ),
     );
   }
 }
+
+class ProductList extends StatelessWidget {
+  const ProductList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Product List'),),
+      body: ListView.builder(
+        itemCount: 20,
+        itemBuilder: (context,index){
+          return ListTile(
+            onTap: (){
+
+              Navigator.push(context, MaterialPageRoute(builder: (context){
+                return ProductDetails(productname: index.toString());
+              }));
+            },
+            title: Text(index.toString()),
+          );
+      },
+
+
+      ),
+    );
+  }
+}
+class ProductDetails extends StatelessWidget {
+
+  final String productname;
+  const ProductDetails({super.key,required this.productname});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Product Details'),),
+      body:Center(child:
+        Text(productname,style: TextStyle(fontSize: 30),)
+
+        ,),
+    );
+  }
+}
+
+
+
