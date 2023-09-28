@@ -40,6 +40,7 @@ class HomeScreen extends StatelessWidget {
                         content: Text('You are in Danger'),
                         actions: [
                           TextButton(
+
                               onPressed: () {
                                 Navigator.pop(context);
                               },
