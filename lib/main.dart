@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -8,20 +9,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: ' Counter App',
       theme: ThemeData(
-        primaryColor: Colors.teal,
-        elevatedButtonTheme: ElevatedButtonThemeData(
-          style: ElevatedButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: Colors.purple
-          )
-        )
-      ),
+          primaryColor: Colors.teal,
+          appBarTheme: AppBarTheme(color: Colors.teal)),
       home: HomeScreen(),
     );
   }
 }
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -29,24 +24,61 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Home'
-        ),
+        title: Text('Swithch And Alret'),
+        centerTitle: true,
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text('Hlw'),
-            TextButton(onPressed: (){}, child: Text('Tap here')),
-            ElevatedButton(onPressed: (){}, child: Text('Tap here'))
-          ],
-        ),
+      body: Column(
+        children: [
+          Switch(value: true, onChanged: (bool value) {}),
+          ElevatedButton(
+              onPressed: () {
+                showDialog(
+                    barrierDismissible: false,
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        title: Text('Alert'),
+                        content: Text('You are in Danger'),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('OK'))
+                        ],
+                      );
+                    });
+              },
+              child: Text("ALert Box")),
+          ElevatedButton(
+              onPressed: () {
+                showAboutDialog(
+                    context: context,
+                    applicationName: 'Yasin',
+                    applicationVersion: '0.1',
+                    applicationIcon: Icon(Icons.accessibility_sharp),
+                    children: [Text('this is Yasin')]);
+              },
+              child: const Text('Show About')),
+          ElevatedButton(
+              onPressed: () {
+                showModalBottomSheet(
+                    isDismissible: false,
+                    backgroundColor: Colors.grey,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10))),
+                    context: context,
+                    builder: (context) {
+                      return Column(
+                        children: [Text('Yasin Mia Palash')],
+                      );
+                    });
+              },
+              child: Text('This is bottom sheet'))
+        ],
       ),
     );
   }
 }
-
-
-
-
