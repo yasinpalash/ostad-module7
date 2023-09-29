@@ -4,80 +4,68 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  int counter = 0;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      theme: ThemeData(
-          primaryColor: Colors.teal,
-          appBarTheme: AppBarTheme(color: Colors.teal)),
-      home: HomeScreen(),
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Counter App'),
+          centerTitle: true,
+        ),
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Center(
+              child: Text(
+                counter.toString(),
+                style: TextStyle(fontSize: 50),
+              ),
+            ),
+            ElevatedButton(onPressed: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>const ProfileScreen(userName: 'Yasin')));
+
+            }, child: Text('profile'))
+          ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            counter = counter + 1;
+            setState(() {});
+          },
+          child: Icon(Icons.add),
+        ),
+      ),
     );
   }
 }
+//widget class
+class ProfileScreen extends StatefulWidget {
+  final String userName;
+  const ProfileScreen({super.key, required this.userName});
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
 
+//state class->widget class
+class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Swithch And Alret'),
-        centerTitle: true,
+        title: Text('profile'),
       ),
-      body: Column(
-        children: [
-          Switch(value: true, onChanged: (bool value) {}),
-          ElevatedButton(
-              onPressed: () {
-                showDialog(
-                    barrierDismissible: false,
-                    context: context,
-                    builder: (context) {
-                      return AlertDialog(
-                        title: Text('Alert'),
-                        content: Text('You are in Danger'),
-                        actions: [
-                          TextButton(
-
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: Text('OK'))
-                        ],
-                      );
-                    });
-              },
-              child: Text("ALert Box")),
-          ElevatedButton(
-              onPressed: () {
-                showAboutDialog(
-                    context: context,
-                    applicationName: 'Yasin',
-                    applicationVersion: '0.1',
-                    applicationIcon: Icon(Icons.accessibility_sharp),
-                    children: [Text('this is Yasin')]);
-              },
-              child: const Text('Show About')),
-          ElevatedButton(
-              onPressed: () {
-                showModalBottomSheet(
-                    isDismissible: false,
-                    backgroundColor: Colors.grey,
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10))),
-                    context: context,
-                    builder: (context) {
-                      return Column(
-                        children: [Text('Yasin Mia Palash')],
-                      );
-                    });
-              },
-              child: Text('This is bottom sheet'))
-        ],
+      body: Center(
+        child: Text(widget.userName),
       ),
     );
   }
